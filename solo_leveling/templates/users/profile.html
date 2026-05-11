@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Профиль</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% if request.user.profile.image %}
+            {{ request.user.profile.avatar_tmb }}
+        {% endif %}
+        {{ user_form }}
+        {{ profile_form }}
+        <p>Выпито кофе: {{ request.user.profile.coffee_count }}</p>
+        <a href="{% url 'homepage:coffe' %}" class="button">Выпить кофе</a>
+        <button type="submit">Сохранить</button>
+    </form>
+{% endblock %}

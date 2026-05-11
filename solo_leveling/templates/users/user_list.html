@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Список юзеров</h2>
+    {% for user in users %}
+    <div>
+        <h5>{{ user.username }}</h5>
+        {% if user.profile.image %}
+            <img src="{{ user.profile.image.url }}" alt="изображение">
+        {% endif %}
+        <p>{{ user.profile.birthday }}</p>
+    </div>
+    {% empty %}
+        <p>Пусто</p>
+    {% endfor %}
+{% endblock %}

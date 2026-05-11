@@ -1,0 +1,10 @@
+<div>
+        <h5>{{ item.name }}</h5>
+        <p>Описание: {{ item.text|truncatewords_html:10 }}</p>
+        <p>Теги:</p>
+        {% for tag in item.tags.all%}
+        <div>
+            <p> {{ tag }}</p>
+        </div>
+        {% endfor %}
+    </div>

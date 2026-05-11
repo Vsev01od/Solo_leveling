@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Информация о пользователе</h2>
+    <div>
+        {% if user.first_name %}
+            <h5>{{ user.first_name }}</h5>
+        {% else %}
+            <h5 style="font-family: Arial, sans-serif;">Не указано</h5>
+        {% endif %}
+
+        {% if user.last_name %}
+            <h6>{{ user.last_name }}</h6>
+        {% else %}
+            <h6 style="font-family: Arial, sans-serif;">Не указано</h6>
+        {% endif %}
+
+        <p>{{ user.profile.birthday }}</p>
+
+        <p>{{ user.email }}</p>
+
+        <p>{{ user.profile.coffee_count }}</p>
+
+        {% if user.profile.image %}
+            <img src="{{ user.profile.image.url }}" alt="изображение">
+        {% endif %}
+
+    </div>
+{% endblock %}
