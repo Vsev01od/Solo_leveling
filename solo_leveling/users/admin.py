@@ -7,7 +7,7 @@ from users import models
 class ProfileInlined(admin.TabularInline):
     model = models.Profile
     can_delete = False
-    fields = ['fire_mode']
+    fields = ['fire_mode', 'fire_mode_bool']
 
 
 class UserAdmin(django.contrib.auth.admin.UserAdmin):

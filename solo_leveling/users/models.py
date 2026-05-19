@@ -16,6 +16,7 @@ class Profile(models.Model):
         "Ударный режим",
         default=0,
     )
+    fire_mode_bool = models.DateField(null=True)
 
     class Meta:
         verbose_name = 'Профиль'
