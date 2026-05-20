@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% for task in todolist %}
+
+    <p>{{ task.text }}</p>
+
+{% endfor %}
+
+{% endblock %}
