@@ -3,19 +3,49 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Магазин{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Solo Leveling{% endblock %}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            background: #111;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1;
+        }
+
+        .footer {
+            background: #0a0a0a;
+            padding: 15px 30px;
+            text-align: center;
+            border-top: 1px solid #222;
+            color: #555;
+            font-size: 12px;
+        }
+    </style>
+    {% block extra_head %}{% endblock %}
 </head>
-<body class="d-flex flex-column min-vh-100">
+<body>
 
     {% include 'includes/header.html' %}
 
-    <main class="container my-4">
+    <main>
         {% block content %}{% endblock %}
     </main>
 
     {% include 'includes/footer.html' %}
 
-    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    {% block extra_js %}{% endblock %}
 </body>
 </html>

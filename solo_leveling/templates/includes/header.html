@@ -1,1 +1,46 @@
-{% load static %}
+<style>
+    .header {
+        background: #0a0a0a;
+        padding: 15px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #222;
+    }
+
+    .header-logo {
+        color: #ff3333;
+        font-size: 20px;
+        font-weight: bold;
+        text-decoration: none;
+        letter-spacing: 2px;
+    }
+
+    .header-links {
+        display: flex;
+        gap: 20px;
+    }
+
+    .header-links a {
+        color: #888;
+        text-decoration: none;
+        font-size: 14px;
+        transition: 0.2s;
+    }
+
+    .header-links a:hover {
+        color: #ff3333;
+    }
+</style>
+
+<header class="header">
+    <a href="/" class="header-logo">SOLO LEVELING</a>
+    <nav class="header-links">
+        <a href="/">Главная</a>
+        {% if user.is_authenticated %}
+            <a href="/logout/">Выйти</a>
+        {% else %}
+            <a href="/login/">Войти</a>
+        {% endif %}
+    </nav>
+</header>
