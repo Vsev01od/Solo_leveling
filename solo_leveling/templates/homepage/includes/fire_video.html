@@ -1,0 +1,8 @@
+<div class="video-popup" id="videoPopup">
+    <button class="video-close" onclick="closeVideo()">✕</button>
+    <video id="fireVideo" autoplay muted playsinline>
+        <source src="{{ fire_video }}" type="video/mp4">
+    </video>
+</div>
+
+{% include "homepage/includes/fire_script.html" %}

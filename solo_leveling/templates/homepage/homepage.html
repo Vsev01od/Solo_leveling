@@ -1,10 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2>Главная страница</h2>
-    {{ fire }}
-    <form method="POST" action="/">
-        {% csrf_token %}
-        <button type="submit">Продлить ударный режим</button>
-    </form>
+{% include "homepage/includes/fire_styles.html" %}
+
+<div class="fire-wrapper">
+    <div class="fire-block">
+        <div class="fire-label">УДАРНЫЙ РЕЖИМ</div>
+        <span class="fire-number">{{ fire }}</span>
+        
+        <form method="POST" action="/">
+            {% csrf_token %}
+            <button type="submit" class="fire-btn">ПРОДЛИТЬ</button>
+        </form>
+        
+        <div class="fire-bottom">{{ fire }} {{ fire_day_word }}</div>
+    </div>
+</div>
+
+{% if fire_video %}
+{% include "homepage/includes/fire_video.html" %}
+{% endif %}
+
 {% endblock %}
