@@ -29,7 +29,12 @@ def main(request):
                   "5.mp4", "6.mp4", "7.mp4", "8.mp4",
                   "9.mp4", "10.mp4", "11.mp4", "12.mp4",
                   "13.mp4", "14.mp4", "15.mp4", "16.mp4",
-                  "17.mp4", "18.mp4", "19.mp4",
+                  "17.mp4", "18.mp4", "19.mp4", "20.mp4",
+                   "21.mp4", "22.mp4", "23.mp4", "24.mp4",
+                    "25.mp4", "26.mp4", "27.mp4", "28.mp4",
+                     "29.mp4", "30.mp4", "31.mp4", "32.mp4",
+                      "33.mp4", "34.mp4", "35.mp4", "36.mp4",
+                       "37.mp4", "38.mp4",
         ]
         random_video = random.choice(videos)
         request.session['fire_video'] = f"/static/videos/{random_video}"

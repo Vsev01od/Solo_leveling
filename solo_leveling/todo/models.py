@@ -12,7 +12,8 @@ class Task(models.Model):
         "Задача"
     )
     T_or_F = models.BooleanField(
-        "Выполнена или нет"
+        "Выполнена или нет",
+        default=False
     )
 
     class Meta:
