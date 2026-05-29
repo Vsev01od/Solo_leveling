@@ -16,18 +16,24 @@
     {% if todolist %}
       {% for task in todolist %}
         <div class="quest-item {% if task.T_or_F %}completed{% endif %}">
-
-          <span class="quest-status">
-            {% if task.T_or_F %}✓{% else %}◆{% endif %}
-          </span>
-
+          <input type="checkbox" 
+            class="quest-checkbox"
+            {% if task.T_or_F %}checked{% endif %}
+            data-url="{% url 'todo:complate_task' task.id %}"
+            onchange="
+                let item = this.closest('.quest-item');
+                if (this.checked) {
+                item.classList.add('completed');
+                } else {
+                item.classList.remove('completed');
+                }
+                fetch(this.dataset.url);
+            ">
           <span class="quest-text">{{ task.text }}</span>
-
           <form method="POST" action="{% url 'todo:todo_del' task.id %}">
             {% csrf_token %}
             <button type="submit" class="btn-delete">Убрать</button>
           </form>
-
         </div>
       {% endfor %}
     {% else %}

@@ -24,3 +24,9 @@ def todo_add(request):
         task.user_id = request.user
         task.save()
         return redirect("todo:todo")
+
+def complate_task(request, id):
+    task = get_object_or_404(Task, id=id)
+    task.T_or_F = not task.T_or_F
+    task.save()
+    return  redirect("todo:todo")

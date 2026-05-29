@@ -303,4 +303,48 @@
   height: 1px;
   background: var(--border);
 }
+.quest-checkbox {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  border: 1.5px solid var(--gold-dim);
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  transition: all var(--transition);
+  position: relative;
+  margin: 0;
+}
+
+.quest-checkbox:checked {
+  border-color: var(--complete);
+  background: var(--complete-glow);
+}
+
+.quest-checkbox:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 12px;
+  font-weight: bold;
+  color: #4ade80;
+}
+
+.quest-checkbox:hover {
+  border-color: var(--gold);
+  box-shadow: 0 0 6px rgba(201, 168, 76, 0.3);
+}
+
+.quest-item.completed .quest-text {
+  text-decoration: line-through;
+  color: var(--text-dim);
+}
+
+/* Убираем старый .quest-status, если он больше нигде не нужен */
+.quest-status {
+  display: none;
+}
 </style>
