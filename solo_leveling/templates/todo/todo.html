@@ -1,23 +1,49 @@
 {% extends "base.html" %}
 
+{% block extra_head %}
+{% include "todo/includes/todo_styles.html" %}
+{% endblock %}
+
 {% block content %}
+<div class="quest-container">
 
-{% for task in todolist %}
+  <header class="quest-header">
+    <h1>Quest Log</h1>
+    <p class="subtitle">Твои активные задания</p>
+  </header>
 
-    <p>{{ task.text }}</p>
-    <p>{{ task.T_or_F }}</p>
-    <form method="POST", action="{% url 'todo:todo_del' task.id %}">
-        {% csrf_token %}
-        <button type="submit">Убрать задачу</button>
-    </form><br>
+  <div class="quest-list">
+    {% if todolist %}
+      {% for task in todolist %}
+        <div class="quest-item {% if task.T_or_F %}completed{% endif %}">
 
-{% endfor %}
+          <span class="quest-status">
+            {% if task.T_or_F %}✓{% else %}◆{% endif %}
+          </span>
 
+          <span class="quest-text">{{ task.text }}</span>
 
-<form method="POST", action="{% url 'todo:todo_add'%}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Добавить задачку</button>
-</form>
+          <form method="POST" action="{% url 'todo:todo_del' task.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn-delete">Убрать</button>
+          </form>
 
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="quest-empty">Нет активных заданий — добавь первое</div>
+    {% endif %}
+  </div>
+
+  <div class="quest-divider">добавить задание</div>
+
+  <div class="quest-add-panel">
+    <form method="POST" action="{% url 'todo:todo_add' %}">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn-add">Принять задание</button>
+    </form>
+  </div>
+
+</div>
 {% endblock %}

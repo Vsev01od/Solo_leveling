@@ -1,0 +1,825 @@
+{% load static %}
+<!-- includes/questlog_styles.html -->
+<style>
+    /* ============================================
+       RPG QUEST LOG - DARK FANTASY UI THEME
+       ============================================ */
+
+    /* --- GOOGLE FONTS --- */
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap');
+
+    /* --- CSS VARIABLES (STRICT PALETTE) --- */
+    :root {
+        --bg-deep: #0d0f14;
+        --bg-surface: #13161e;
+        --bg-elevated: #1a1e2a;
+
+        --gold-primary: #c9a84c;
+        --gold-muted: #7a6230;
+        --gold-bright: #e8cc7a;
+
+        --border-default: #2a2f3f;
+        --border-hover: #3d4a6b;
+
+        --text-primary: #d4cfc8;
+        --text-dim: #6b6b7a;
+        --text-muted: #3a3d4f;
+
+        --danger: #c0392b;
+        --danger-glow: rgba(192, 57, 43, 0.4);
+        --success: #2e7d5e;
+        --success-glow: rgba(46, 125, 94, 0.4);
+
+        --font-display: 'Cinzel', serif;
+        --font-body: 'Crimson Pro', serif;
+
+        --transition-speed: 0.3s;
+        --glow-spread: 8px;
+        --border-radius: 4px;
+    }
+
+    /* --- GLOBAL RESET & BASE --- */
+    body {
+        background-color: var(--bg-deep);
+        color: var(--text-primary);
+        font-family: var(--font-body);
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 1.6;
+        letter-spacing: 0.01em;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    main {
+        flex: 1;
+    }
+
+    /* --- HEADINGS --- */
+    h1, h2, h3, h4, h5, h6 {
+        font-family: var(--font-display);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--gold-primary);
+        margin-bottom: 0.6em;
+    }
+
+    h1 {
+        font-size: 2.4rem;
+        font-weight: 700;
+        border-bottom: 2px solid var(--gold-muted);
+        padding-bottom: 0.4em;
+        text-shadow: 0 0 12px rgba(201, 168, 76, 0.3);
+    }
+
+    h2 {
+        font-size: 1.8rem;
+        color: var(--gold-bright);
+    }
+
+    h3 {
+        font-size: 1.4rem;
+        color: var(--gold-muted);
+    }
+
+    /* --- PARAGRAPHS & TEXT --- */
+    p {
+        color: var(--text-dim);
+        margin-bottom: 1em;
+    }
+
+    a {
+        color: var(--gold-primary);
+        text-decoration: none;
+        transition: color var(--transition-speed), text-shadow var(--transition-speed);
+    }
+
+    a:hover {
+        color: var(--gold-bright);
+        text-shadow: 0 0 8px rgba(232, 204, 122, 0.5);
+    }
+
+    /* --- FOOTER --- */
+    .footer {
+        background: var(--bg-elevated);
+        padding: 15px 30px;
+        text-align: center;
+        border-top: 2px solid var(--gold-muted);
+        color: var(--text-muted);
+        font-size: 14px;
+        font-family: var(--font-body);
+        font-style: italic;
+        letter-spacing: 0.03em;
+    }
+
+    /* ============================================
+       CARDS - Quest Cards, Panels, Log Entries
+       ============================================ */
+    .quest-card,
+    .card,
+    .panel {
+        background: var(--bg-surface);
+        border: 1px solid var(--border-default);
+        border-left: 3px solid var(--gold-primary);
+        border-radius: var(--border-radius);
+        padding: 1.5rem 2rem;
+        margin-bottom: 1.5rem;
+        transition: all var(--transition-speed) ease;
+        position: relative;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .quest-card:hover,
+    .card:hover,
+    .panel:hover {
+        border-color: var(--border-hover);
+        background: var(--bg-elevated);
+        box-shadow: 0 0 18px rgba(201, 168, 76, 0.15), 0 6px 20px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Card with decorative corner */
+    .quest-card::before,
+    .card::before {
+        content: "◆";
+        position: absolute;
+        top: 8px;
+        right: 12px;
+        font-size: 10px;
+        color: var(--gold-muted);
+        opacity: 0.6;
+        transition: opacity var(--transition-speed), color var(--transition-speed);
+    }
+
+    .quest-card:hover::before,
+    .card:hover::before {
+        opacity: 1;
+        color: var(--gold-bright);
+        text-shadow: 0 0 6px var(--gold-bright);
+    }
+
+    /* Card with quest completed status */
+    .quest-card.completed,
+    .card.completed {
+        border-left-color: var(--success);
+        background: rgba(46, 125, 94, 0.06);
+    }
+
+    .quest-card.completed::before,
+    .card.completed::before {
+        content: "✦";
+        color: var(--success);
+    }
+
+    .quest-card.completed:hover,
+    .card.completed:hover {
+        box-shadow: 0 0 18px var(--success-glow), 0 6px 20px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Card with danger/failed status */
+    .quest-card.danger,
+    .card.danger {
+        border-left-color: var(--danger);
+        background: rgba(192, 57, 43, 0.05);
+    }
+
+    .quest-card.danger::before,
+    .card.danger::before {
+        content: "⚔";
+        color: var(--danger);
+    }
+
+    .quest-card.danger:hover,
+    .card.danger:hover {
+        box-shadow: 0 0 18px var(--danger-glow), 0 6px 20px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Card title */
+    .quest-card .card-title,
+    .card .card-title {
+        font-family: var(--font-display);
+        font-size: 1.3rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--gold-primary);
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .quest-card .card-title::before {
+        content: "";
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        background: var(--gold-primary);
+        transform: rotate(45deg);
+        margin-right: 6px;
+        box-shadow: 0 0 6px var(--gold-primary);
+    }
+
+    .quest-card.completed .card-title::before {
+        background: var(--success);
+        box-shadow: 0 0 6px var(--success);
+    }
+
+    .quest-card.danger .card-title::before {
+        background: var(--danger);
+        box-shadow: 0 0 6px var(--danger);
+    }
+
+    /* ============================================
+       FORMS - Quest Submission, Character Sheet
+       ============================================ */
+    form {
+        background: var(--bg-surface);
+        padding: 2rem;
+        border: 1px solid var(--border-default);
+        border-radius: var(--border-radius);
+        box-shadow: inset 0 0 30px rgba(0,0,0,0.3);
+    }
+
+    label {
+        display: block;
+        font-family: var(--font-display);
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--gold-muted);
+        margin-bottom: 0.4rem;
+        margin-top: 1.2rem;
+    }
+
+    label::after {
+        content: " *";
+        color: var(--danger);
+        font-size: 0.8rem;
+        opacity: 0.8;
+    }
+
+    label.optional::after {
+        content: "";
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="number"],
+    input[type="search"],
+    input[type="url"],
+    textarea,
+    select {
+        width: 100%;
+        background: var(--bg-deep);
+        border: 1px solid var(--border-default);
+        border-radius: var(--border-radius);
+        padding: 0.8rem 1rem;
+        color: var(--text-primary);
+        font-family: var(--font-body);
+        font-size: 1rem;
+        letter-spacing: 0.02em;
+        transition: all var(--transition-speed) ease;
+        box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5);
+        outline: none;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+        border-color: var(--gold-primary);
+        box-shadow: 0 0 12px rgba(201, 168, 76, 0.25), inset 0 2px 6px rgba(0, 0, 0, 0.5);
+        background: #0a0c10;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+        color: var(--text-muted);
+        font-style: italic;
+        font-family: var(--font-body);
+    }
+
+    textarea {
+        min-height: 120px;
+        resize: vertical;
+        line-height: 1.5;
+    }
+
+    select {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23c9a84c' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 1rem center;
+        background-size: 12px;
+        cursor: pointer;
+    }
+
+    /* ============================================
+       BUTTONS - Actions, Quest Accept/Decline
+       ============================================ */
+    .btn,
+    button,
+    input[type="submit"],
+    input[type="button"],
+    input[type="reset"] {
+        display: inline-block;
+        background: transparent;
+        color: var(--gold-primary);
+        border: 2px solid var(--gold-muted);
+        padding: 0.7rem 2rem;
+        font-family: var(--font-display);
+        font-size: 0.95rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        cursor: pointer;
+        border-radius: var(--border-radius);
+        transition: all var(--transition-speed) ease;
+        position: relative;
+        overflow: hidden;
+        text-decoration: none;
+        text-align: center;
+    }
+
+    .btn::before,
+    button::before,
+    input[type="submit"]::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(201, 168, 76, 0.1), transparent);
+        transition: left 0.5s ease;
+    }
+
+    .btn:hover,
+    button:hover,
+    input[type="submit"]:hover,
+    input[type="button"]:hover {
+        color: var(--gold-bright);
+        border-color: var(--gold-primary);
+        background: rgba(201, 168, 76, 0.08);
+        box-shadow: 0 0 18px rgba(201, 168, 76, 0.3), 0 0 30px rgba(201, 168, 76, 0.1);
+        text-shadow: 0 0 8px rgba(232, 204, 122, 0.5);
+    }
+
+    .btn:hover::before,
+    button:hover::before,
+    input[type="submit"]:hover::before {
+        left: 100%;
+    }
+
+    .btn:active,
+    button:active,
+    input[type="submit"]:active {
+        transform: translateY(1px);
+        box-shadow: 0 0 8px rgba(201, 168, 76, 0.5);
+    }
+
+    /* Primary / Accept Button */
+    .btn-primary,
+    .btn-accept {
+        border-color: var(--gold-primary);
+        color: var(--bg-deep);
+        background: var(--gold-primary);
+        font-weight: 700;
+    }
+
+    .btn-primary:hover,
+    .btn-accept:hover {
+        background: var(--gold-bright);
+        border-color: var(--gold-bright);
+        color: #000;
+        box-shadow: 0 0 24px rgba(232, 204, 122, 0.5);
+    }
+
+    /* Success / Complete Button */
+    .btn-success,
+    .btn-complete {
+        border-color: var(--success);
+        color: var(--success);
+    }
+
+    .btn-success:hover,
+    .btn-complete:hover {
+        background: rgba(46, 125, 94, 0.15);
+        border-color: #3a9d7a;
+        color: #5dd4a8;
+        box-shadow: 0 0 18px var(--success-glow);
+    }
+
+    /* Danger / Delete / Abandon Button */
+    .btn-danger,
+    .btn-delete,
+    .btn-abandon {
+        border-color: var(--danger);
+        color: var(--danger);
+    }
+
+    .btn-danger:hover,
+    .btn-delete:hover,
+    .btn-abandon:hover {
+        background: rgba(192, 57, 43, 0.2);
+        border-color: #e04a3a;
+        color: #f07060;
+        box-shadow: 0 0 20px var(--danger-glow);
+        text-shadow: 0 0 6px rgba(240, 112, 96, 0.6);
+    }
+
+    /* Small Button */
+    .btn-sm {
+        padding: 0.4rem 1.2rem;
+        font-size: 0.8rem;
+        letter-spacing: 0.08em;
+    }
+
+    /* Disabled State */
+    .btn:disabled,
+    button:disabled,
+    input:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+        pointer-events: none;
+        filter: grayscale(40%);
+    }
+
+    /* ============================================
+       PANELS / SECTIONS - Quest Log Sections
+       ============================================ */
+    .section-panel,
+    .quest-section {
+        background: var(--bg-surface);
+        border: 1px solid var(--border-default);
+        border-top: 2px solid var(--gold-primary);
+        border-radius: var(--border-radius);
+        padding: 2rem;
+        margin: 2rem 0;
+        position: relative;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+    }
+
+    .section-panel::before,
+    .quest-section::before {
+        content: attr(data-label);
+        position: absolute;
+        top: -12px;
+        left: 20px;
+        background: var(--bg-deep);
+        padding: 0 1rem;
+        font-family: var(--font-display);
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        color: var(--gold-primary);
+        white-space: nowrap;
+    }
+
+    /* ============================================
+       DIVIDERS - Separators with centered text
+       ============================================ */
+    .divider {
+        display: flex;
+        align-items: center;
+        text-align: center;
+        color: var(--gold-muted);
+        font-family: var(--font-display);
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        margin: 2.5rem 0;
+        user-select: none;
+    }
+
+    .divider::before,
+    .divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(to right, transparent, var(--border-default), transparent);
+    }
+
+    .divider::before {
+        margin-right: 1.5rem;
+    }
+
+    .divider::after {
+        margin-left: 1.5rem;
+    }
+
+    /* Ornate divider variant */
+    .divider-ornate {
+        color: var(--gold-primary);
+    }
+
+    .divider-ornate::before,
+    .divider-ornate::after {
+        background: linear-gradient(to right, transparent, var(--gold-muted), transparent);
+        height: 2px;
+    }
+
+    /* ============================================
+       QUEST LIST / LOG LIST
+       ============================================ */
+    .quest-list,
+    .log-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .quest-list li,
+    .log-list li {
+        background: var(--bg-surface);
+        border: 1px solid var(--border-default);
+        border-left: 3px solid var(--gold-muted);
+        border-radius: var(--border-radius);
+        padding: 1rem 1.5rem;
+        margin-bottom: 0.8rem;
+        transition: all var(--transition-speed) ease;
+        font-family: var(--font-body);
+        font-size: 1rem;
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+
+    .quest-list li:hover,
+    .log-list li:hover {
+        border-color: var(--border-hover);
+        background: var(--bg-elevated);
+        box-shadow: 0 0 12px rgba(201, 168, 76, 0.1);
+    }
+
+    .quest-list li::before,
+    .log-list li::before {
+        content: "◆";
+        font-size: 8px;
+        color: var(--gold-muted);
+        margin-right: 0.8rem;
+        flex-shrink: 0;
+    }
+
+    /* List item statuses */
+    .quest-list li.completed,
+    .log-list li.completed {
+        border-left-color: var(--success);
+        opacity: 0.75;
+    }
+
+    .quest-list li.completed::before,
+    .log-list li.completed::before {
+        content: "✦";
+        color: var(--success);
+    }
+
+    .quest-list li.failed,
+    .log-list li.failed {
+        border-left-color: var(--danger);
+        opacity: 0.7;
+    }
+
+    .quest-list li.failed::before,
+    .log-list li.failed::before {
+        content: "⚔";
+        color: var(--danger);
+    }
+
+    /* ============================================
+       BADGES / TAGS - Quest difficulty, rewards
+       ============================================ */
+    .badge {
+        display: inline-block;
+        background: var(--bg-elevated);
+        border: 1px solid var(--border-default);
+        color: var(--text-dim);
+        font-family: var(--font-display);
+        font-size: 0.65rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        padding: 0.2rem 0.7rem;
+        border-radius: 2px;
+    }
+
+    .badge-gold {
+        border-color: var(--gold-muted);
+        color: var(--gold-primary);
+        background: rgba(122, 98, 48, 0.15);
+    }
+
+    .badge-danger {
+        border-color: var(--danger);
+        color: #e06c5e;
+        background: rgba(192, 57, 43, 0.1);
+    }
+
+    .badge-success {
+        border-color: var(--success);
+        color: #5dd4a8;
+        background: rgba(46, 125, 94, 0.1);
+    }
+
+    /* ============================================
+       PROGRESS BAR - Quest progress
+       ============================================ */
+    .progress-bar-container {
+        background: var(--bg-deep);
+        border: 1px solid var(--border-default);
+        border-radius: 2px;
+        height: 8px;
+        overflow: hidden;
+        margin: 0.8rem 0;
+    }
+
+    .progress-bar-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--gold-muted), var(--gold-primary));
+        box-shadow: 0 0 10px rgba(201, 168, 76, 0.4);
+        transition: width 0.6s ease;
+        border-radius: 2px;
+    }
+
+    .progress-bar-fill.success {
+        background: linear-gradient(90deg, var(--success), #5dd4a8);
+        box-shadow: 0 0 10px var(--success-glow);
+    }
+
+    /* ============================================
+       NOTIFICATION / ALERT BOXES
+       ============================================ */
+    .alert {
+        padding: 1rem 1.5rem;
+        border-radius: var(--border-radius);
+        border-left: 4px solid var(--gold-muted);
+        background: var(--bg-surface);
+        color: var(--text-primary);
+        font-family: var(--font-body);
+        margin-bottom: 1.5rem;
+        position: relative;
+    }
+
+    .alert::before {
+        font-family: var(--font-display);
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        display: block;
+        margin-bottom: 0.3rem;
+    }
+
+    .alert-success {
+        border-left-color: var(--success);
+        background: rgba(46, 125, 94, 0.08);
+    }
+
+    .alert-success::before {
+        content: "✦ Quest Complete";
+        color: var(--success);
+    }
+
+    .alert-danger {
+        border-left-color: var(--danger);
+        background: rgba(192, 57, 43, 0.08);
+    }
+
+    .alert-danger::before {
+        content: "⚔ Quest Failed";
+        color: var(--danger);
+    }
+
+    .alert-info {
+        border-left-color: var(--gold-primary);
+        background: rgba(201, 168, 76, 0.05);
+    }
+
+    .alert-info::before {
+        content: "◆ New Quest";
+        color: var(--gold-primary);
+    }
+
+    /* ============================================
+       SCROLLBAR (Webkit)
+       ============================================ */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: var(--bg-deep);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: var(--border-default);
+        border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--border-hover);
+    }
+
+    /* ============================================
+       UTILITY CLASSES
+       ============================================ */
+    .text-gold {
+        color: var(--gold-primary);
+    }
+
+    .text-dim {
+        color: var(--text-dim);
+    }
+
+    .text-muted {
+        color: var(--text-muted);
+    }
+
+    .text-danger {
+        color: var(--danger);
+    }
+
+    .text-success {
+        color: var(--success);
+    }
+
+    .font-display {
+        font-family: var(--font-display);
+    }
+
+    .uppercase {
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+    }
+
+    .mt-1 { margin-top: 0.5rem; }
+    .mt-2 { margin-top: 1rem; }
+    .mt-3 { margin-top: 1.5rem; }
+    .mt-4 { margin-top: 2rem; }
+    .mb-1 { margin-bottom: 0.5rem; }
+    .mb-2 { margin-bottom: 1rem; }
+    .mb-3 { margin-bottom: 1.5rem; }
+    .mb-4 { margin-bottom: 2rem; }
+
+    .flex-row {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .flex-between {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /* ============================================
+       RESPONSIVE
+       ============================================ */
+    @media (max-width: 768px) {
+        body {
+            font-size: 16px;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+        }
+
+        .quest-card,
+        .card,
+        .panel {
+            padding: 1rem 1.2rem;
+        }
+
+        .section-panel,
+        .quest-section {
+            padding: 1.2rem;
+        }
+
+        .btn,
+        button,
+        input[type="submit"] {
+            padding: 0.6rem 1.4rem;
+            font-size: 0.85rem;
+        }
+
+        .quest-list li,
+        .log-list li {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+    }
+</style>

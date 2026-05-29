@@ -1,0 +1,306 @@
+<style>
+/* =========================================
+   QUEST LOG — Todo App Styles
+   ========================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap');
+
+:root {
+  --bg:          #0d0f14;
+  --surface:     #13161e;
+  --surface-2:   #1a1e2a;
+  --border:      #2a2f3f;
+  --border-glow: #3d4a6b;
+  --gold:        #c9a84c;
+  --gold-light:  #e8cc7a;
+  --gold-dim:    #7a6230;
+  --text:        #d4cfc8;
+  --text-dim:    #6b6b7a;
+  --text-muted:  #3a3d4f;
+  --danger:      #c0392b;
+  --danger-glow: rgba(192, 57, 43, 0.3);
+  --complete:    #2e7d5e;
+  --complete-glow: rgba(46, 125, 94, 0.2);
+  --radius:      4px;
+  --transition:  0.2s ease;
+}
+
+.quest-container {
+  max-width: 680px;
+  margin: 48px auto;
+  padding: 0 20px 80px;
+}
+
+.quest-header {
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.quest-header::before,
+.quest-header::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 28%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold-dim));
+}
+.quest-header::before { left: 0; }
+.quest-header::after  { right: 0; background: linear-gradient(to left, transparent, var(--gold-dim)); }
+
+.quest-header h1 {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-shadow: 0 0 24px rgba(201, 168, 76, 0.35);
+  line-height: 1;
+}
+
+.quest-header .subtitle {
+  font-family: 'Crimson Pro', serif;
+  font-style: italic;
+  font-size: .95rem;
+  color: var(--text-dim);
+  margin-top: 6px;
+  letter-spacing: .05em;
+}
+
+.quest-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 32px;
+}
+
+.quest-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold-dim);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+}
+
+.quest-item:hover {
+  border-color: var(--border-glow);
+  border-left-color: var(--gold);
+  background: var(--surface-2);
+  box-shadow: 0 0 12px rgba(201, 168, 76, 0.08),
+              inset 0 0 30px rgba(201, 168, 76, 0.03);
+}
+
+.quest-item.completed {
+  border-left-color: var(--complete);
+  opacity: .65;
+}
+
+.quest-item.completed .quest-text {
+  text-decoration: line-through;
+  color: var(--text-dim);
+}
+
+.quest-status {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid var(--gold-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .65rem;
+  color: var(--gold-dim);
+  transition: border-color var(--transition), color var(--transition);
+}
+
+.quest-item:hover .quest-status {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.quest-item.completed .quest-status {
+  border-color: var(--complete);
+  background: var(--complete-glow);
+  color: #4ade80;
+}
+
+.quest-text {
+  flex: 1;
+  font-family: 'Crimson Pro', serif;
+  font-size: 1.05rem;
+  color: var(--text);
+  letter-spacing: .02em;
+  line-height: 1.3;
+}
+
+.btn-delete {
+  flex-shrink: 0;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  font-size: .7rem;
+  font-family: 'Cinzel', serif;
+  letter-spacing: .08em;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: all var(--transition);
+  text-transform: uppercase;
+}
+
+.btn-delete:hover {
+  border-color: var(--danger);
+  color: var(--danger);
+  background: var(--danger-glow);
+}
+
+.quest-add-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--gold-dim);
+  border-radius: var(--radius);
+  padding: 24px;
+  position: relative;
+}
+
+.quest-add-panel::before {
+  content: '✦ НОВОЕ ЗАДАНИЕ';
+  position: absolute;
+  top: -11px;
+  left: 20px;
+  background: var(--surface);
+  padding: 0 10px;
+  font-family: 'Cinzel', serif;
+  font-size: .62rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  color: var(--gold-dim);
+}
+
+.quest-add-panel p {
+  margin-bottom: 14px;
+}
+
+.quest-add-panel label {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: .7rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.quest-add-panel input[type="text"],
+.quest-add-panel input[type="email"],
+.quest-add-panel input[type="password"],
+.quest-add-panel textarea,
+.quest-add-panel select {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  font-family: 'Crimson Pro', serif;
+  font-size: 1rem;
+  color: var(--text);
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.quest-add-panel input[type="text"]:focus,
+.quest-add-panel textarea:focus {
+  border-color: var(--gold-dim);
+  box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.1);
+}
+
+.quest-add-panel input[type="text"]::placeholder,
+.quest-add-panel textarea::placeholder {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.quest-add-panel input[type="checkbox"] {
+  accent-color: var(--gold);
+  width: 15px;
+  height: 15px;
+  margin-right: 8px;
+  cursor: pointer;
+}
+
+.btn-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  background: transparent;
+  border: 1px solid var(--gold-dim);
+  border-radius: var(--radius);
+  padding: 10px 24px;
+  font-family: 'Cinzel', serif;
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.btn-add::before {
+  content: '⚔';
+  font-size: .8rem;
+}
+
+.btn-add:hover {
+  background: rgba(201, 168, 76, 0.08);
+  border-color: var(--gold);
+  color: var(--gold);
+  box-shadow: 0 0 16px rgba(201, 168, 76, 0.15);
+}
+
+.btn-add:active {
+  transform: scale(.97);
+}
+
+.quest-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-muted);
+  font-family: 'Crimson Pro', serif;
+  font-style: italic;
+  font-size: 1rem;
+  letter-spacing: .05em;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 32px;
+}
+
+.quest-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 28px 0;
+  color: var(--text-muted);
+  font-family: 'Cinzel', serif;
+  font-size: .6rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.quest-divider::before,
+.quest-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+</style>
