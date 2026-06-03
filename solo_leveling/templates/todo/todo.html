@@ -5,51 +5,152 @@
 {% endblock %}
 
 {% block content %}
-<div class="quest-container">
+<div class="quest-container quest-container--wide">
 
   <header class="quest-header">
     <h1>Quest Log</h1>
     <p class="subtitle">Твои активные задания</p>
   </header>
 
-  <div class="quest-list">
-    {% if todolist %}
-      {% for task in todolist %}
-        <div class="quest-item {% if task.T_or_F %}completed{% endif %}">
-          <input type="checkbox" 
-            class="quest-checkbox"
-            {% if task.T_or_F %}checked{% endif %}
-            data-url="{% url 'todo:complate_task' task.id %}"
-            onchange="
-                let item = this.closest('.quest-item');
-                if (this.checked) {
-                item.classList.add('completed');
-                } else {
-                item.classList.remove('completed');
-                }
-                fetch(this.dataset.url);
-            ">
-          <span class="quest-text">{{ task.text }}</span>
-          <form method="POST" action="{% url 'todo:todo_del' task.id %}">
-            {% csrf_token %}
-            <button type="submit" class="btn-delete">Убрать</button>
-          </form>
-        </div>
-      {% endfor %}
-    {% else %}
-      <div class="quest-empty">Нет активных заданий — добавь первое</div>
-    {% endif %}
-  </div>
+  <div class="quest-board">
 
-  <div class="quest-divider">добавить задание</div>
+    <!-- ── Колонка: Лёгкие ───────────────── -->
+    <div class="quest-column quest-column--easy">
+      <div class="quest-column__header">
+        <span class="quest-column__icon">◆</span>
+        <span class="quest-column__title">Лёгкие</span>
+        <span class="quest-column__rank">Rank F</span>
+      </div>
+      <div class="quest-list">
+        {% if todolist %}
+          {% for task in todolist %}
+            {% if task.complexity == 1 %}
+              <div class="quest-item {% if task.T_or_F %}completed{% endif %}">
+                <input type="checkbox"
+                  class="quest-checkbox"
+                  {% if task.T_or_F %}checked{% endif %}
+                  data-url="{% url 'todo:complate_task' task.id %}"
+                  onchange="
+                    let item = this.closest('.quest-item');
+                    if (this.checked) {
+                      item.classList.add('completed');
+                    } else {
+                      item.classList.remove('completed');
+                    }
+                    fetch(this.dataset.url);
+                  ">
+                <span class="quest-text">{{ task.text }}</span>
+                <form method="POST" action="{% url 'todo:todo_del' task.id %}">
+                  {% csrf_token %}
+                  <button type="submit" class="btn-delete">Убрать</button>
+                </form>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      </div>
+      <div class="quest-add-panel">
+        <form method="POST" action="{% url 'todo:todo_add' 1 %}">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="btn-add">Принять задание</button>
+        </form>
+      </div>
+    </div>
 
-  <div class="quest-add-panel">
-    <form method="POST" action="{% url 'todo:todo_add' %}">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit" class="btn-add">Принять задание</button>
-    </form>
-  </div>
+    <!-- ── Колонка: Средние ──────────────── -->
+    <div class="quest-column quest-column--medium">
+      <div class="quest-column__header">
+        <span class="quest-column__icon">⬟</span>
+        <span class="quest-column__title">Средние</span>
+        <span class="quest-column__rank">Rank B</span>
+      </div>
+      <div class="quest-list">
+        {% if todolist %}
+          {% for task in todolist %}
+            {% if task.complexity == 2 %}
+              <div class="quest-item {% if task.T_or_F %}completed{% endif %}">
+                <input type="checkbox"
+                  class="quest-checkbox"
+                  {% if task.T_or_F %}checked{% endif %}
+                  data-url="{% url 'todo:complate_task' task.id %}"
+                  onchange="
+                    let item = this.closest('.quest-item');
+                    if (this.checked) {
+                      item.classList.add('completed');
+                    } else {
+                      item.classList.remove('completed');
+                    }
+                    fetch(this.dataset.url);
+                  ">
+                <span class="quest-text">{{ task.text }}</span>
+                <form method="POST" action="{% url 'todo:todo_del' task.id %}">
+                  {% csrf_token %}
+                  <button type="submit" class="btn-delete">Убрать</button>
+                </form>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      </div>
+      <div class="quest-add-panel">
+        <form method="POST" action="{% url 'todo:todo_add' 2 %}">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="btn-add">Принять задание</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ── Колонка: Сложные ──────────────── -->
+    <div class="quest-column quest-column--hard">
+      <div class="quest-column__header">
+        <span class="quest-column__icon">✦</span>
+        <span class="quest-column__title">Сложные</span>
+        <span class="quest-column__rank">Rank S</span>
+      </div>
+      <div class="quest-list">
+        {% if todolist %}
+          {% for task in todolist %}
+            {% if task.complexity == 3 %}
+              <div class="quest-item {% if task.T_or_F %}completed{% endif %}">
+                <input type="checkbox"
+                  class="quest-checkbox"
+                  {% if task.T_or_F %}checked{% endif %}
+                  data-url="{% url 'todo:complate_task' task.id %}"
+                  onchange="
+                    let item = this.closest('.quest-item');
+                    if (this.checked) {
+                      item.classList.add('completed');
+                    } else {
+                      item.classList.remove('completed');
+                    }
+                    fetch(this.dataset.url);
+                  ">
+                <span class="quest-text">{{ task.text }}</span>
+                <form method="POST" action="{% url 'todo:todo_del' task.id %}">
+                  {% csrf_token %}
+                  <button type="submit" class="btn-delete">Убрать</button>
+                </form>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      </div>
+      <div class="quest-add-panel">
+        <form method="POST" action="{% url 'todo:todo_add' 3 %}">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="btn-add">Принять задание</button>
+        </form>
+      </div>
+    </div>
+
+  </div><!-- /.quest-board -->
+
+  {% if not todolist %}
+    <div class="quest-empty">Нет активных заданий — добавь первое</div>
+  {% endif %}
 
 </div>
 {% endblock %}

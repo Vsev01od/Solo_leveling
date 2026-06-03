@@ -17,11 +17,12 @@ def todo_del(request, id):
     task.delete()
     return redirect("todo:todo")
 
-def todo_add(request):
+def todo_add(request, complexity):
     form = TaskText(request.POST)
     if form.is_valid():
         task = form.save(commit=False)
         task.user_id = request.user
+        task.complexity = complexity
         task.save()
         return redirect("todo:todo")
 
@@ -29,4 +30,4 @@ def complate_task(request, id):
     task = get_object_or_404(Task, id=id)
     task.T_or_F = not task.T_or_F
     task.save()
-    return  redirect("todo:todo")
+    return redirect("todo:todo")

@@ -15,6 +15,10 @@ class Task(models.Model):
         "Выполнена или нет",
         default=False
     )
+    complexity = models.IntegerField(
+        "Сложность",
+        null=True,
+    )
 
     class Meta:
         verbose_name = 'Задача'
